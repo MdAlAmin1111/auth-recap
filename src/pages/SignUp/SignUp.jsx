@@ -1,16 +1,21 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
-import { Link } from 'react-router';
-import { auth } from '../../firebase/firebase.config';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router';
 import { toast, ToastContainer } from 'react-toastify';
+import { AuthContext } from '../../rootLayout/RootLayout';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
+
 
 const SignUp = () => {
-
-    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleToast = (message) => {
         toast(message);
     }
+
+    const { signup, setError, error } = useContext(AuthContext);
 
     const handleSignUp = (e) => {
         e.preventDefault();
@@ -20,12 +25,18 @@ const SignUp = () => {
         const password = e.target.password.value;
         const confirmPassword = e.target.confirmPassword.value;
 
-        console.log(fullname, email, password, confirmPassword);
-        createUserWithEmailAndPassword(auth, email, password)
+        if(password.length<6){
+            MySwal.fire('Welcome to SweetAlert2!');
+            alert('Password should have at least 6 character');
+            return;
+        }
+
+        signup(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
                 handleToast('Sign up successful!');
                 setError('');
+                navigate('/');
 
 
             })
@@ -52,19 +63,19 @@ const SignUp = () => {
                     </div>
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm">Email address</label>
-                        <input type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800" />
+                        <input type="email" autoComplete='username' name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800" />
                     </div>
                     <div>
                         <div className="flex justify-between mb-2">
                             <label htmlFor="password" className="text-sm">Password</label>
                         </div>
-                        <input type="password" name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800" />
+                        <input type="password" autoComplete='new-password' name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800" />
                     </div>
                     <div>
                         <div className="flex justify-between mb-2">
                             <label htmlFor="confirm_password" className="text-sm">Confirm Password</label>
                         </div>
-                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="*****" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800" />
+                        <input type="password" autoComplete='new-password' name="confirmPassword" id="confirmPassword" placeholder="*****" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800" />
                     </div>
                 </div>
                 {

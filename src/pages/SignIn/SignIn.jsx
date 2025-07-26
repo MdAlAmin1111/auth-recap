@@ -1,26 +1,24 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router';
-import { auth } from '../../firebase/firebase.config';
 import { toast, ToastContainer } from 'react-toastify';
+import { AuthContext } from '../../rootLayout/RootLayout';
 
 const SignIn = () => {
 
-    const [error, setError] = useState('');
+
+    const { login, setError, error } = useContext(AuthContext);
 
     const handleSignIn = (e) => {
         e.preventDefault();
 
         const email = e.target.email.value;
         const password = e.target.password.value;
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                handleToast('Login successful!');
-                setError('');
-            })
+        login(email, password).then((userCredential) => {
+            const user = userCredential.user;
+            handleToast('Login successful!');
+            setError('');
+        })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
@@ -36,7 +34,7 @@ const SignIn = () => {
 
 
     return (
-        <div className="w-full max-w-md mx-auto p-4 my-2 rounded-md shadow sm:p-8 bg-gray-100 text-gray-800">
+        <div className="w-full max-w-lg mx-auto p-4 my-2 rounded-md shadow sm:p-8 bg-gray-100 text-gray-800">
 
             <h2 className="mb-3 text-3xl font-semibold text-center">Login to your account</h2>
             <p className="text-sm text-center dark:text-gray-600">Dont have account?
@@ -69,7 +67,7 @@ const SignIn = () => {
 
                     <div className="space-y-2">
                         <label htmlFor="email" className="block text-sm">Email address</label>
-                        <input type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600" />
+                        <input type="email" autoComplete='username' name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600" />
                     </div>
 
                     <div className="space-y-2">
@@ -77,7 +75,7 @@ const SignIn = () => {
                             <label htmlFor="password" className="text-sm">Password</label>
                             <a rel="noopener noreferrer" href="#" className="text-xs hover:underline dark:text-gray-600">Forgot password?</a>
                         </div>
-                        <input type="password" name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600" />
+                        <input type="password" autoComplete='current-password' name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600" />
                     </div>
 
                 </div>
