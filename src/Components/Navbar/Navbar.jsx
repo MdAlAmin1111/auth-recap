@@ -27,8 +27,8 @@ const Navbar = () => {
                     </li>
                 </ul>
                 <div className="items-center flex-shrink-0 hidden lg:flex space-x-2">
-                    <button onClick={() => navigate('/signin')} className={`self-center px-8 py-3 font-semibold rounded cursor-pointer bg-blue-400 text-gray-50 ${pathname == '/signin' ? 'bg-rose-900' : ''}`}>Sign in</button>
-                    <button onClick={() => navigate('/signup')} className={`self-center px-8 py-3 font-semibold rounded bg-blue-400 text-gray-50 cursor-pointer ${pathname == '/signup' ? 'bg-rose-900' : ''}`}>Sign up</button>
+                    <button onClick={() => navigate('/signin')} className={`self-center px-8 py-3 font-semibold rounded cursor-pointer bg-blue-500 text-gray-50 ${pathname == '/signin' ? 'bg-rose-900' : ''}`}>Sign in</button>
+                    <button onClick={() => navigate('/signup')} className={`self-center px-8 py-3 font-semibold rounded bg-blue-500 text-gray-50 cursor-pointer ${pathname == '/signup' ? 'bg-rose-900' : ''}`}>Sign up</button>
                 </div>
                 <button className="p-4 lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:text-gray-800">

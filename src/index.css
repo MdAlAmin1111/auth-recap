@@ -1,5 +1,8 @@
 @import "tailwindcss";
-.active{
-    color:#8B0836;
+
+.active {
+    color: #8B0836;
     font-weight: 700;
+    border: 2px solid transparent;
+    transition: border-color 0.5s ease;
 }
