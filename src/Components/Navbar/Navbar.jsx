@@ -1,10 +1,38 @@
 import React from 'react';
 import techNest from '../../assets/TechNest Gizmo 2.png'
 import { NavLink, useLocation, useNavigate } from 'react-router';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/firebase.config';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const Navbar = () => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
+
+    const handleSignout = () => {
+        signOut(auth)
+            .then(() => {
+                MySwal.fire(
+                    {
+                        icon: 'success',
+                        title: 'Sign out',
+                        text: 'You have successfully signed out!'
+                    }
+                )
+            })
+            .catch(() => {
+                MySwal.fire(
+                    {
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'There is some problem, try again!'
+                    }
+                )
+            })
+    }
 
     return (
         <header className="p-4 bg-gray-200 text-gray-800">
@@ -25,10 +53,15 @@ const Navbar = () => {
                     <li className="flex">
                         <NavLink to={'/blog'} className="flex items-center px-4 -mb-1 ">Blog</NavLink>
                     </li>
+                    <li className="flex">
+                        <NavLink to={'/allPost'} className="flex items-center px-4 -mb-1 ">All Posts</NavLink>
+                    </li>
+
                 </ul>
                 <div className="items-center flex-shrink-0 hidden lg:flex space-x-2">
                     <button onClick={() => navigate('/signin')} className={`self-center px-8 py-3 font-semibold rounded cursor-pointer bg-blue-500 text-gray-50 ${pathname == '/signin' ? 'bg-rose-900' : ''}`}>Sign in</button>
                     <button onClick={() => navigate('/signup')} className={`self-center px-8 py-3 font-semibold rounded bg-blue-500 text-gray-50 cursor-pointer ${pathname == '/signup' ? 'bg-rose-900' : ''}`}>Sign up</button>
+                    <button onClick={()=>{handleSignout(); navigate('/')}} className={`self-center px-8 py-3 font-semibold rounded cursor-pointer bg-blue-500 text-gray-50`}>Sign out</button>
                 </div>
                 <button className="p-4 lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:text-gray-800">

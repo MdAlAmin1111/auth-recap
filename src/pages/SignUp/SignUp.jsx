@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { toast, ToastContainer } from 'react-toastify';
+// import { toast, ToastContainer } from 'react-toastify';
 import { AuthContext } from '../../rootLayout/RootLayout';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -10,11 +10,9 @@ const MySwal = withReactContent(Swal);
 
 const SignUp = () => {
     const navigate = useNavigate();
-
-    const handleToast = (message) => {
-        toast(message);
-    }
-
+    // const handleToast = (message) => {
+    //     toast(message);
+    // }
     const { signup, setError, error } = useContext(AuthContext);
 
     const handleSignUp = (e) => {
@@ -25,16 +23,34 @@ const SignUp = () => {
         const password = e.target.password.value;
         const confirmPassword = e.target.confirmPassword.value;
 
-        if(password.length<6){
-            MySwal.fire('Welcome to SweetAlert2!');
-            alert('Password should have at least 6 character');
+        if (password.length < 6) {
+            // MySwal.fire('Password should have at least 6 character!');
+            MySwal.fire({
+                title: 'warning',
+                text: 'Password should have at least 6 character!',
+                icon: 'error',
+            });
+            return;
+        }
+        if (password != confirmPassword) {
+            MySwal.fire({
+                icon: 'warning',
+                title: 'Password Mismatch!',
+                text: 'Please make sure both password fields are the same.'
+            })
             return;
         }
 
         signup(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                handleToast('Sign up successful!');
+
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Sign Up!',
+                    text: 'Your account has been created successfully!'
+                })
+                // handleToast('Sign up successful!');
                 setError('');
                 navigate('/');
 
@@ -44,13 +60,18 @@ const SignUp = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 setError(errorCode);
-                console.log(errorMessage);
-                handleToast(`Please try again!`);
+
+                MySwal.fire({
+                    icon: 'error',
+                    title: errorCode,
+                    text: errorMessage
+                })
+                // handleToast(`Please try again!`);
             })
     }
 
     return (
-        <div className="flex flex-col max-w-md mx-auto p-6 rounded-md sm:p-10 bg-gray-100 text-gray-800 my-2">
+        <div className="flex flex-col max-w-lg mx-auto p-6 rounded-md sm:p-10 bg-gray-100 text-gray-800 my-2">
             <div className="mb-8 text-center">
                 <h1 className="my-3 text-4xl font-bold">Sign up</h1>
                 <p className="text-sm dark:text-gray-600">Sign up to access your account</p>
@@ -90,7 +111,7 @@ const SignUp = () => {
                     </p>
                 </div>
             </form>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </div>
     );
 };

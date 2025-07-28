@@ -1,37 +1,49 @@
 import React, { useContext } from 'react';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router';
-import { toast, ToastContainer } from 'react-toastify';
+// import { toast, ToastContainer } from 'react-toastify';
 import { AuthContext } from '../../rootLayout/RootLayout';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const SignIn = () => {
-
-
     const { login, setError, error } = useContext(AuthContext);
 
     const handleSignIn = (e) => {
         e.preventDefault();
-
         const email = e.target.email.value;
         const password = e.target.password.value;
-        login(email, password).then((userCredential) => {
-            const user = userCredential.user;
-            handleToast('Login successful!');
-            setError('');
-        })
+
+        login(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Login successful',
+                    text: 'You have logged in successfully!'
+                })
+                setError('');
+                // handleToast('Login successful!');
+
+            })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 setError(errorCode);
                 console.log(errorMessage);
-                handleToast(`Please try again!`);
+                MySwal.fire({
+                    icon: 'error',
+                    title: errorCode,
+                    text: errorMessage
+                })
+                // handleToast(`Please try again!`);
             })
     }
-
-    const handleToast = (message) => {
-        toast(message);
-    }
-
+    // const handleToast = (message) => {
+    //     toast(message);
+    // }
 
     return (
         <div className="w-full max-w-lg mx-auto p-4 my-2 rounded-md shadow sm:p-8 bg-gray-100 text-gray-800">
@@ -86,7 +98,7 @@ const SignIn = () => {
                 <button type='submit' className="w-full px-8 py-3 font-semibold rounded-md bg-blue-500 text-gray-50">Sign in</button>
 
             </form>
-            <ToastContainer></ToastContainer>
+            {/* <ToastContainer></ToastContainer> */}
         </div>
     );
 };
