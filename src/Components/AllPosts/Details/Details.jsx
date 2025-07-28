@@ -1,13 +1,24 @@
 import React from 'react';
-import { useLoaderData, useParams } from 'react-router';
+import { Navigate, useLoaderData } from 'react-router';
 import alamin from '../../../assets/alamin.png'
+import { AuthContext } from '../../../rootLayout/RootLayout';
 
 const Details = () => {
     // const { id } = useParams();
     const data = useLoaderData();
     const { body, title } = data;
+    // const navigate = useNavigate();
+    // const { user, loader } = useContext(AuthContext);
 
-    console.log(data);
+    // if (loader) {
+    //     return <div className='p-5 flex justify-center items-center'><div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-violet-600"></div></div>
+    // }
+    // // return <Navigate to={'/signup'}></Navigate>;
+    // if (!user) {
+    //     // navigate('/');
+    //     // if we call navigate() here there will give you error
+    //     return <Navigate to={'/signup'}></Navigate>
+    // }
 
     return (
         <div className="bg-gray-100 text-gray-800 py-15">

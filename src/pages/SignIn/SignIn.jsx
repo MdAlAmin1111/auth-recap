@@ -5,11 +5,14 @@ import { Link } from 'react-router';
 import { AuthContext } from '../../rootLayout/RootLayout';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { login } from '../../utils/utils';
 
 const MySwal = withReactContent(Swal);
 
+
 const SignIn = () => {
-    const { login, setError, error } = useContext(AuthContext);
+
+    const { setError, error } = useContext(AuthContext);
 
     const handleSignIn = (e) => {
         e.preventDefault();
@@ -19,6 +22,7 @@ const SignIn = () => {
         login(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
+                console.log(user);
                 MySwal.fire({
                     icon: 'success',
                     title: 'Login successful',

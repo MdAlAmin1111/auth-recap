@@ -1,9 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
 import Navbar from '../Components/Navbar/Navbar';
 import Footer from '../Components/Footer/Footer';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebase.config';
+// import { login } from '../utils/utils';
 
 
 export const AuthContext = createContext();
@@ -11,34 +13,21 @@ export const AuthContext = createContext();
 const RootLayout = () => {
     const [error, setError] = useState('');
     const [user, setUser] = useState(null);
-
-
-    const login = (email, password) => {
-        return signInWithEmailAndPassword(auth, email, password);
-    }
-    const signup = (email, password) => {
-        return createUserWithEmailAndPassword(auth, email, password);
-    }
+    const [loader, setLoader] = useState(true);
 
     const value = {
-        signup,
-        login,
         setError,
         error,
         user,
-        setUser
+        setUser,
+        loader,
+        setLoader
     }
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            if (currentUser) {
-
-                // ...
-            } else {
-                // User is signed out
-                // ...
-            }
+            setLoader(false);
         });
         return () => unSubscribe();
     }, [])

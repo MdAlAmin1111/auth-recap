@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../../rootLayout/RootLayout';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { signup } from '../../utils/utils';
 
 const MySwal = withReactContent(Swal);
 
@@ -13,12 +14,11 @@ const SignUp = () => {
     // const handleToast = (message) => {
     //     toast(message);
     // }
-    const { signup, setError, error } = useContext(AuthContext);
+    const { setError, error } = useContext(AuthContext);
 
     const handleSignUp = (e) => {
         e.preventDefault();
-
-        const fullname = e.target.fullname.value;
+        // const fullname = e.target.fullname.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         const confirmPassword = e.target.confirmPassword.value;
@@ -42,8 +42,8 @@ const SignUp = () => {
         }
 
         signup(email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
+            //.then() er vitore parameter hisabe userCredential newa hoy but ekhane kono kaj korsina bole newa hoynai 
+            .then(() => {
 
                 MySwal.fire({
                     icon: 'success',

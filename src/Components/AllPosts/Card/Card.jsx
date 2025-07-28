@@ -9,7 +9,6 @@ const Card = ({ singlePost }) => {
     if (body.length > 35) {
         newBody = body.slice(0, 35) + '...';
     }
-    console.log(newBody);
     return (
         <div className="w-[100%] rounded-md shadow-md bg-gray-50 text-gray-800">
             <img src={'https://thumbs.dreamstime.com/b/young-indian-man-happy-outdoors-looking-camera-39595562.jpg'} alt="" className="object-cover object-center w-full rounded-t-md h-72 bg-gray-500" />

@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import AllPosts from "../Components/AllPosts/AllPosts";
 import Details from "../Components/AllPosts/Details/Details";
 import { Suspense } from "react";
+import PrivateRoute from "../Components/PrivateRoute/PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -26,7 +27,10 @@ export const router = createBrowserRouter([
       },
       {
         path: '/blog',
-        element: <Blog></Blog>
+        element:
+          <PrivateRoute>
+            <Blog></Blog>
+          </PrivateRoute>
       },
       {
         path: '/allPost',
@@ -35,7 +39,10 @@ export const router = createBrowserRouter([
       },
       {
         path: '/details/:id',
-        element: <Details></Details>,
+        element:
+          <PrivateRoute>
+            <Details></Details>
+          </PrivateRoute>,
         loader: ({ params }) => fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
       },
       {
