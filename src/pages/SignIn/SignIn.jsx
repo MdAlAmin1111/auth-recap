@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 // import { toast, ToastContainer } from 'react-toastify';
 import { AuthContext } from '../../rootLayout/RootLayout';
 import Swal from 'sweetalert2';
@@ -10,7 +10,12 @@ import { login } from '../../utils/utils';
 const MySwal = withReactContent(Swal);
 
 
+
+
 const SignIn = () => {
+    const location = useLocation();
+    const { state } = location;
+    const navigate = useNavigate();
 
     const { setError, error } = useContext(AuthContext);
 
@@ -20,9 +25,10 @@ const SignIn = () => {
         const password = e.target.password.value;
 
         login(email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user);
+            // userCredential parameter pabe then er arrow function er modde, amader kaje lagtesena bole parameter badh disi
+            .then(() => {
+                state ? navigate(state): navigate('/');
+                // const user = userCredential.user;
                 MySwal.fire({
                     icon: 'success',
                     title: 'Login successful',
@@ -52,7 +58,7 @@ const SignIn = () => {
     return (
         <div className="w-full max-w-lg mx-auto p-4 my-2 rounded-md shadow sm:p-8 bg-gray-100 text-gray-800">
 
-            <h2 className="mb-3 text-3xl font-semibold text-center">Login to your account</h2>
+            <h2 className="mb-3 text-3xl font-semibold text-center">Signin to your account</h2>
             <p className="text-sm text-center dark:text-gray-600">Dont have account?
                 <Link to={'/signup'} className="focus:underline hover:underline text-violet-600"> Sign up here.</Link>
             </p>

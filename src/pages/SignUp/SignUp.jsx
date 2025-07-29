@@ -11,6 +11,7 @@ const MySwal = withReactContent(Swal);
 
 const SignUp = () => {
     const navigate = useNavigate();
+    console.log(navigate);
     // const handleToast = (message) => {
     //     toast(message);
     // }
